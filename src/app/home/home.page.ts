@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { RefresherCustomEvent } from '@ionic/angular';
+import { Router } from '@angular/router';
 
-import { DataService, Message } from '../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -9,16 +8,40 @@ import { DataService, Message } from '../services/data.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private data: DataService) { }
+  afficher!: boolean;
+  dateChoisie!: number;
+  dateActuelle!: number;
+  nbrDodo!: number;
+  pluriel!: string;
 
-  refresh(ev: any) {
-    setTimeout(() => {
-      (ev as RefresherCustomEvent).detail.complete();
-    }, 3000);
+
+  constructor(private router : Router) { }
+
+  ionViewDidEnter() {
+    this.dateActuelle = Date.now();
+    if (localStorage.getItem('date') != null) {
+      this.dateChoisie = parseInt(localStorage.getItem('date')!);
+      let diff = this.dateChoisie - this.dateActuelle;
+      this.nbrDodo = Math.trunc((diff / (1000 * 60 * 60 * 24)) + 1);
+      
+      if (this.nbrDodo > 0) {
+        this.afficher = true;
+        if (this.nbrDodo > 1) {
+          this.pluriel = 's';
+        } else {
+          this.pluriel = '';
+        }
+      } else {
+        this.afficher = false;
+        localStorage.clear()
+      }
+    } else {
+      this.afficher = false;
+    }
   }
 
-  getMessages(): Message[] {
-    return this.data.getMessages();
+  pickDate() {
+    this.router.navigateByUrl('date')
   }
 
 }
