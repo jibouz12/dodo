@@ -1,0 +1,8 @@
+{
+  "name": "dodo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "b6f1fd7b"
+}
