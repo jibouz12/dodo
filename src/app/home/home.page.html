@@ -8,6 +8,9 @@
         <p class="p1">il reste</p>
         <p class="p2">{{ nbrDodo }} dodo{{ pluriel }}</p>
       </div>
+      <div *ngIf="afficher === false">
+        <h1>Le Compteur <br/> de Dodos</h1>
+      </div>
     </div>
     <ion-button class="btn" (click)="pickDate()">choisir une date</ion-button>
   </div>
